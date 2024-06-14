@@ -8,7 +8,7 @@ locals {
   userdata = <<USERDATA
 [ZSCALER]
 CC_URL=${var.cc_vm_prov_url}
-SECRET_NAME=${var.secret_name}
+SECRET_NAME=${var.aws_secret_name}
 HTTP_PROBE_PORT=${var.http_probe_port}
 USERDATA
 }
@@ -16,16 +16,16 @@ USERDATA
 module "cc_vm" {
   source                    = "./modules/terraform-zscc-ccvm-aws"
   cc_count                  = 1
-  ami_id                    = var.cc_ami
+  ami_id                    = var.aws_cc_ami
   mgmt_subnet_id            = aws_subnet.private_subnet1.id
   service_subnet_id         = aws_subnet.private_subnet1.id
-  instance_key              = var.instance_key
+  instance_key              = var.aws_instance_key
   user_data                 = local.userdata
-  ccvm_instance_type        = var.cc_instance_type
+  ccvm_instance_type        = var.aws_cc_instance_type
   iam_instance_profile      = module.cc_iam.iam_instance_profile_id
   mgmt_security_group_id    = aws_security_group.sg.id
   service_security_group_id = aws_security_group.sg.id
-  tag = var.vpc_name
+  tag = var.aws_vpc_name
 }
 
 module "cc_iam" {
@@ -34,5 +34,5 @@ module "cc_iam" {
   name_prefix         = var.name_prefix
   resource_tag        = random_string.suffix.result
   cc_callhome_enabled = var.cc_callhome_enabled
-  secret_name         = var.secret_name
+  secret_name         = var.aws_secret_name
 }

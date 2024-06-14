@@ -1,12 +1,12 @@
 #App Connectorの作成
 resource "aws_instance" "app_connector" {
-  ami           = var.ac_ami
-  instance_type = var.ac_instance_type
+  ami           = var.aws_ac_ami
+  instance_type = var.aws_ac_instance_type
   subnet_id = aws_subnet.private_subnet1.id
   user_data = base64encode(local.command)
-  key_name = var.instance_key
+  key_name = var.aws_instance_key
   tags = {
-    Name = "${var.vpc_name}-appconnector"
+    Name = "${var.aws_vpc_name}-appconnector"
   }
 }
 
@@ -17,7 +17,7 @@ locals {
 systemctl stop zpa-connector
 #Create a file from the App Connector provisioning key created in the ZPA Admin Portal
 #Make sure that the provisioning key is between double quotes
-echo "${var.provision_key}" > /opt/zscaler/var/provision_key
+echo "${var.aws_ac_provision_key}" > /opt/zscaler/var/provision_key
 #Run a yum update to apply the latest patches
 yum update -y
 #Start the App Connector service to enroll it in the ZPA cloud

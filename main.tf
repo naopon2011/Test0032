@@ -4,22 +4,22 @@ provider "aws" {
 
 # VPCの作成
 resource "aws_vpc" "vpc" {
-  cidr_block = var.vpc_cidr
+  cidr_block = var.aws_vpc_cidr
   enable_dns_hostnames = true
   tags = {
-    Name = var.vpc_name,
-    Tag = var.vpc_name
+    Name = var.aws_vpc_name,
+    Tag = var.aws_vpc_name
   }
 }
 
 # パブリックサブネットの作成
 resource "aws_subnet" "public_subnet" {
   vpc_id            = aws_vpc.vpc.id
-  cidr_block        = var.pub_subnet_cidr
-  availability_zone = var.az1_name
+  cidr_block        = var.aws_pub_subnet_cidr
+  availability_zone = var.aws_az1_name
   tags = {
-    Name = "${var.vpc_name}-public-subnet"
-    Tag = var.vpc_name
+    Name = "${var.aws_vpc_name}-public-subnet"
+    Tag = var.aws_vpc_name
   }
 }
 
@@ -27,30 +27,30 @@ resource "aws_subnet" "public_subnet" {
 resource "aws_route_table" "public_route_table" {
   vpc_id = aws_vpc.vpc.id
   tags = {
-    Name = "${var.vpc_name}-public-route-table"
-    Tag = var.vpc_name
+    Name = "${var.aws_vpc_name}-public-route-table"
+    Tag = var.aws_vpc_name
   }
 }
 
 # Zscalerリソース用プライベートサブネットの作成
 resource "aws_subnet" "private_subnet1" {
   vpc_id            = aws_vpc.vpc.id
-  cidr_block        = var.pri1_subnet_cidr
-  availability_zone = var.az1_name
+  cidr_block        = var.aws_pri1_subnet_cidr
+  availability_zone = var.aws_az1_name
   tags = {
-    Name = "${var.vpc_name}-private-subnet1"
-    Tag = var.vpc_name
+    Name = "${var.aws_vpc_name}-private-subnet1"
+    Tag = var.aws_vpc_name
   }
 }
 
 # CC送信元用プライベートサブネットの作成
 resource "aws_subnet" "private_subnet2" {
   vpc_id            = aws_vpc.vpc.id
-  cidr_block        = var.pri2_subnet_cidr
-  availability_zone = var.az1_name
+  cidr_block        = var.aws_pri2_subnet_cidr
+  availability_zone = var.aws_az1_name
   tags = {
-    Name = "${var.vpc_name}-private-subnet2"
-    Tag = var.vpc_name
+    Name = "${var.aws_vpc_name}-private-subnet2"
+    Tag = var.aws_vpc_name
   }
 }
 
@@ -58,8 +58,8 @@ resource "aws_subnet" "private_subnet2" {
 resource "aws_internet_gateway" "my_igw" {
   vpc_id = aws_vpc.vpc.id
   tags = {
-    Name = "${var.vpc_name}-igw"
-    Tag = var.vpc_name
+    Name = "${var.aws_vpc_name}-igw"
+    Tag = var.aws_vpc_name
   }
 }
 
@@ -75,8 +75,8 @@ resource "aws_nat_gateway" "nat_gateway" {
   allocation_id = aws_eip.eip.id
   subnet_id     = aws_subnet.public_subnet.id
   tags = {
-    Name = "${var.vpc_name}-nat-gateway"
-    Tag = var.vpc_name
+    Name = "${var.aws_vpc_name}-nat-gateway"
+    Tag = var.aws_vpc_name
   }
 }
 
@@ -84,8 +84,8 @@ resource "aws_nat_gateway" "nat_gateway" {
 resource "aws_eip" "eip" {
   vpc = true
   tags = {
-    Name = "${var.vpc_name}-eip"
-    Tag = var.vpc_name
+    Name = "${var.aws_vpc_name}-eip"
+    Tag = var.aws_vpc_name
   }
 }
 
@@ -103,8 +103,8 @@ resource "aws_route_table" "private_route_table" {
     gateway_id = aws_nat_gateway.nat_gateway.id
   }
   tags = {
-    Name = "${var.vpc_name}-private_route_table"
-    Tag = var.vpc_name
+    Name = "${var.aws_vpc_name}-private_route_table"
+    Tag = var.aws_vpc_name
   }
 }
 
@@ -116,8 +116,8 @@ resource "aws_route_table" "private_route_table2" {
     network_interface_id = module.cc_vm.service_eni_1[0]
   }
   tags = {
-    Name = "${var.vpc_name}-private_route_table2"
-    Tag = var.vpc_name
+    Name = "${var.aws_vpc_name}-private_route_table2"
+    Tag = var.aws_vpc_name
   }
 }
 
@@ -142,20 +142,20 @@ resource "aws_security_group" "sg" {
     cidr_blocks      = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "${var.vpc_name}-sg"
-    Tag = var.vpc_name
+    Name = "${var.aws_vpc_name}-sg"
+    Tag = var.aws_vpc_name
   }
 
 }
 
 #Windows Serverの作成
 resource "aws_instance" "windows" {
-  ami           = var.win_ami
-  instance_type = var.win_instance_type
+  ami           = var.aws_win_ami
+  instance_type = var.aws_win_instance_type
   subnet_id = aws_subnet.private_subnet2.id
-  key_name = var.instance_key
+  key_name = var.aws_instance_key
   tags = {
-    Name = "${var.vpc_name}-win"
-    Tag = var.vpc_name
+    Name = "${var.aws_vpc_name}-win"
+    Tag = var.aws_vpc_name
   }
 }
