@@ -82,6 +82,11 @@ variable "aws_cc_instance_type" {
   type        = string
   default     = "t3.medium"
 }
+
+variable "aws_ac_provision_key" {
+  description = "AWS App Connector用のProvisioning Key"
+  type        = string
+}
 ################################################################################
 # ZPAの変数定義
 ################################################################################
@@ -105,11 +110,6 @@ variable "zpa_customer_id" {
 variable "aws_ac_group" {
   type        = string
   description = "AWS用のApp Connector Groupの名前"
-}
-
-variable "aws_ac_provision_key" {
-  description = "AWS App Connector用のProvisioning Key"
-  type        = string
 }
 
 variable "name_prefix" {
