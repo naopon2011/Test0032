@@ -16,25 +16,25 @@ variable "aws_vpc_cidr" {
 }
 
 variable "aws_pub_subnet_cidr" {
-  description = "パブリックサブネットで使用するアドレス帯"
+  description = "AWSのパブリックサブネットで使用するアドレス帯"
   type        = string
   default     = "10.0.0.0/24"
 }
 
 variable "aws_pri1_subnet_cidr" {
-  description = "プライベートサブネット１で使用するアドレス帯"
+  description = "AWSのプライベートサブネット１で使用するアドレス帯"
   type        = string
   default     = "10.0.1.0/24"
 }
 
 variable "aws_pri2_subnet_cidr" {
-  description = "プライベートサブネット2で使用するアドレス帯"
+  description = "AWSのプライベートサブネット2で使用するアドレス帯"
   type        = string
   default     = "10.0.2.0/24"
 }
 
 variable "aws_az1_name" {
-  description = "一つ目のavailability zone"
+  description = "Availability zone"
   type        = string
   default     = "ap-northeast-1a"
 }
@@ -45,13 +45,13 @@ variable "aws_instance_key" {
 }
 
 variable "aws_win_ami" {
-  description = "Windows(踏み台用)のami(踏み台用)"
+  description = "Windowsのami"
   type        = string
   default     = "ami-06323ff1c3178cee1"
 }
 
 variable "aws_win_instance_type" {
-  description = "Windows(踏み台用)のinstance type"
+  description = "Windowsのinstance type"
   type        = string
   default     = "t3.medium"
 }
@@ -101,11 +101,11 @@ variable "zpa_customer_id" {
 
 variable "aws_ac_group" {
   type        = string
-  description = "App Connector Groupの名前"
+  description = "AWS用のApp Connector Groupの名前"
 }
 
 variable "aws_ac_provision_key" {
-  description = "App Connector用のProvisioning Keyの名前"
+  description = "AWS App Connector用のProvisioning Key"
   type        = string
 }
 
