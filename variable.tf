@@ -74,7 +74,7 @@ variable "aws_ac_instance_type" {
 variable "aws_cc_ami" {
   description = "Cloud Connectorのami"
   type        = string
-  default     = "ami-0854c366a1edc5c3a"
+  default     = "ami-09db530e8a9188750"
 }
 
 variable "aws_cc_instance_type" {
