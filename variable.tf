@@ -4,7 +4,7 @@
 variable "aws_region" {
   type        = string
   description = "AWSのリージョン"
-  default     = "ap-northeast-1"
+  default     = "us-east-1"
 }
 
 variable "aws_vpc_name" {
